@@ -1,0 +1,33 @@
+{
+  "synthetic": true,
+  "before": {
+    "model_id": "synthetic_example",
+    "checkpoint_sha256": "example-only",
+    "band_schema": "RGB",
+    "site_id": "example",
+    "footprint_id": "same-grid",
+    "acquired_at": "2026-01-01T00:00:00Z",
+    "alignment_verified": true,
+    "valid_fraction": 1,
+    "embedding": [
+      1,
+      0,
+      0
+    ]
+  },
+  "after": {
+    "model_id": "synthetic_example",
+    "checkpoint_sha256": "example-only",
+    "band_schema": "RGB",
+    "site_id": "example",
+    "footprint_id": "same-grid",
+    "acquired_at": "2026-01-02T00:00:00Z",
+    "alignment_verified": true,
+    "valid_fraction": 1,
+    "embedding": [
+      0.8,
+      0.2,
+      0
+    ]
+  }
+}

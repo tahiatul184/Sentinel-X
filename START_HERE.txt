@@ -1,0 +1,17 @@
+Sentinal X 1.0.0 — satellite-only aviation awareness research
+
+Windows: run RUN_ALL.bat (Python 3.12+ and internet for setup/model download).
+Other systems: python start_dashboard.py
+Open http://127.0.0.1:8501 if the browser does not open automatically.
+
+1. Set a study area under Setup & Auto Mode. Sentinel-1 SAR, Sentinel-2 optical, and Landsat 8/9 optical/thermal scenes provide environmental context. Their native resolution is normally insufficient for an aircraft detection claim.
+2. For automatic high-resolution collection, follow AUTO_HIGHRES_SETUP.md: set PL_API_KEY with SkySat archive access and allow the browser location fix on Aircraft Awareness. The app then checks, downloads, crops and analyzes accessible scenes automatically.
+
+Manual alternative: On Aircraft Awareness, upload a georeferenced high-resolution RGB optical satellite GeoTIFF (native GSD at most 2 m). Enter the actual acquisition time, site and scene IDs, then run Detect aircraft candidates in image. The published research checkpoint downloads on first use. It performs tiled inference and georeferences the results automatically.
+3. Repeat for later acquisitions of the same site. Review presence candidates, possible movement between acquisitions, and position-change anomalies. You may import outputs of additional optical, SAR, thermal or foundation models with the CSV template. Download the JSON audit result.
+
+The model's published benchmark does not validate performance at your site. Native resolution, RGB band order, imagery rights, cloud, registration, model domain and annotated local test scenes matter. No detection is an unresolved observation, not proof of absence. Sparse revisits do not reconstruct continuous flight paths or speed. All outputs require human review.
+
+See SATELLITE_AWARENESS.md for the detector contract and limits.
+
+4. Open Research & Validation for grouped holdout checks, detection evaluation and foundation feature-pair comparison. Read README.md and research/RESEARCH_TRACEABILITY.md before interpreting results.

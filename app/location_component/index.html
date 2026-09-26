@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body { margin:0; font:14px system-ui,sans-serif; color:#c6d8e6; background:transparent; }
+    button { background:#147da3; color:white; border:1px solid #48b9dd; border-radius:8px;
+             padding:12px 18px; font:600 15px system-ui,sans-serif; cursor:pointer; }
+    button:focus-visible { outline:3px solid #fff; outline-offset:2px; }
+    button:disabled { opacity:.6; cursor:wait; }
+    p { margin:9px 0; line-height:1.45; }
+    #status { color:#a9d7e8; }
+  </style>
+</head>
+<body>
+  <button id="locate" type="button">Use my current location</button>
+  <p>Allow location access when your browser asks. This saves your location as the imagery area.</p>
+  <p id="status" role="status" aria-live="polite"></p>
+  <script src="location.js"></script>
+</body>
+</html>

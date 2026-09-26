@@ -1,0 +1,40 @@
+{
+  "synthetic": true,
+  "scenes": [
+    {
+      "scene_id": "synthetic_test_1",
+      "source_scene_id": "synthetic_source_1",
+      "spatial_group": "synthetic_heldout_region",
+      "country": "Bangladesh",
+      "sensor": "synthetic_optical",
+      "season": "monsoon",
+      "split": "test",
+      "area_km2": 1,
+      "native_gsd_m": 0.5,
+      "fully_reviewed": true,
+      "ground_truth": [
+        [
+          10,
+          10,
+          50,
+          30
+        ]
+      ]
+    }
+  ],
+  "methods": {
+    "optical_baseline": [
+      {
+        "scene_id": "synthetic_test_1",
+        "box": [
+          11,
+          10,
+          51,
+          30
+        ],
+        "score": 0.8
+      }
+    ],
+    "fusion_ablation": []
+  }
+}

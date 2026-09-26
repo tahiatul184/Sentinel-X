@@ -1,0 +1,2 @@
+Sentinal X 1.0.0
+Based on AEROSENTINEL 2.9.2; research validation upgrade
