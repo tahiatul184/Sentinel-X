@@ -43,6 +43,20 @@ python -m unittest discover -s app -v
 
 The suite uses synthetic inputs and mocked providers. It does not establish real-world aircraft detection accuracy or validate live imagery entitlements.
 
+## Aircraft Map dashboard
+
+**Aircraft Map** is the default landing page. When the manual detector, imported satellite observations, or automatic SkySat worker saves an assessment, its presence candidates appear here. The page reads the latest saved assessment every 10 seconds while open.
+
+- Click an aircraft marker or choose an observation ID to inspect its coordinates, capture time, site, scene, screening score, model confidence (new assessments), model provenance, resolution, and validation status.
+- Filter by site, minimum screening score, and latest candidate capture per site or all candidate captures in the assessment.
+- Download the selected observation as JSON or the filtered table as CSV.
+- Turn on **Preview synthetic example** to try the map without imagery or credentials. Its invented points are labeled synthetic and are never saved to your evidence.
+- Real detections can be generated on **Aircraft Awareness**, then viewed using **Open Aircraft Map**.
+
+This is a map of satellite observations, not a live flight feed. A marker is an imagery-derived aircraft candidate at its acquisition time. Repeated observations are not unique aircraft; older candidates may remain in the history after a newer scene has no detections. Flight registration, speed, heading, altitude, and transponder status are unknown. Scores are not calibrated probabilities. The map shows the latest saved assessment, so an automatic assessment can replace a manual/imported assessment as the displayed source; check the source label and capture times.
+
+Map tiles need internet access. The table and exports remain available if the basemap is unavailable. No tracking-service API key is required.
+
 ## What changed
 
 - Sentinal X dashboard branding and **Research & Validation** page.
@@ -70,3 +84,5 @@ python -m unittest test_sentinal_x test_highres_collection test_aircraft_detecto
 ```
 
 Research ideas are selectively applied; the limitations of all cited papers are not solved. Existing foundation runners remain optional. SatMAE/CROMA/STANet/DSen2 model implementations are not added by this release. Legacy module/file names remain for compatibility.
+
+Aircraft Map update (2026-09-27): 144 offline tests passed, including candidate filtering, coordinate/time validation, map data, synthetic-preview isolation, saved-result refresh, and all ten dashboard pages. Python compilation passed. Real provider/model accuracy remains unverified.

@@ -31,6 +31,7 @@ from aircraft_detector import infer_geotiff, MODEL_ID
 from image_processing import enhance_rgb, denoise_rgb
 from quality_control import image_quality_metrics
 from sentinal_x_ui import render as sentinal_research
+from aircraft_map import render as render_aircraft_map
 
 PROJECT=ROOT.parent
 store=Store(ROOT);research=ResearchStore(ROOT)
@@ -39,16 +40,23 @@ st.markdown('''<style>
 .block-container{max-width:1500px;padding-top:2.5rem} [data-testid="stMetric"]{background:#132631;padding:18px;border:1px solid #2c444e;border-radius:14px}
 .eyebrow{color:#68d6c0;font-size:12px;letter-spacing:3px;font-weight:700}.hero{font-size:42px;letter-spacing:-1.5px;font-weight:700;margin:5px 0}.subtitle{color:#a9bdc7;margin-bottom:22px;max-width:920px}
 </style>''',unsafe_allow_html=True)
-st.markdown('<div class="eyebrow">SENTINAL X / SATELLITE AVIATION RESEARCH / 1.0.0</div><div class="hero">Observe. Understand. Detect. Predict. Trust.</div><div class="subtitle">Satellite-only aircraft awareness from optical, SAR, thermal, temporal and foundation-model observations. Presence and movement remain review candidates bounded by image resolution, acquisition time and model quality.</div>',unsafe_allow_html=True)
 with st.sidebar:
     st.title('Sentinal X 1.0.0')
-    page=st.radio('Go to',['Operations Center','Sentinal X Intelligence','Aircraft Awareness','Research & Validation','Setup & Auto Mode','Satellite Detail','Processing Lab','Advanced Analysis','System Health'])
+    page=st.radio('Go to',['Aircraft Map','Operations Center','Sentinal X Intelligence','Aircraft Awareness','Research & Validation','Setup & Auto Mode','Satellite Detail','Processing Lab','Advanced Analysis','System Health'],key='navigation')
     st.caption('AUTOMATED RESILIENCE RESEARCH · Local workstation')
     paused=bool(store.setting('paused'))
     if st.button('▶ Resume all automation' if paused else '⏸ Pause all automation',width='stretch'):
         store.setting('paused',not paused);st.rerun()
     st.caption('Observed / Imported / Simulated / Model-derived evidence is kept separate.')
     st.caption('AEROSENTINEL does not automate interception, jamming, targeting, weapons employment, hostile-actor classification, or autonomous flight-release decisions.')
+
+
+if page != 'Aircraft Map':
+    st.markdown('<div class="eyebrow">SENTINAL X / SATELLITE AVIATION RESEARCH / 1.0.0</div><div class="hero">Observe. Understand. Detect. Predict. Trust.</div><div class="subtitle">Satellite-only aircraft awareness from optical, SAR, thermal, temporal and foundation-model observations. Presence and movement remain review candidates bounded by image resolution, acquisition time and model quality.</div>',unsafe_allow_html=True)
+
+@st.fragment(run_every='10s')
+def aircraft_map_page():
+    render_aircraft_map(store)
 
 
 def save_upload(upload,folder='evidence'):
@@ -671,6 +679,7 @@ def aircraft_awareness():
             st.error(str(exc))
     result=store.setting('aircraft_awareness_latest') or {}
     if result:
+        st.button('Open Aircraft Map',on_click=lambda: st.session_state.update(navigation='Aircraft Map'))
         st.metric('Assessment state',result['state'])
         for title,key in [('Presence candidates','observations'),('Possible movement between acquisitions','movement_candidates'),('Anomaly events for review','anomalies')]:
             st.markdown('### '+title)
@@ -1184,7 +1193,7 @@ def advanced_analysis():
     with tabs[4]:evaluate()
 
 try:
-    {'Operations Center':operations_center,'Sentinal X Intelligence':early_warning,'Aircraft Awareness':aircraft_awareness,'Research & Validation':sentinal_research,'Setup & Auto Mode':setup_auto_mode,'Satellite Detail':satellite,
+    {'Aircraft Map':aircraft_map_page,'Operations Center':operations_center,'Sentinal X Intelligence':early_warning,'Aircraft Awareness':aircraft_awareness,'Research & Validation':sentinal_research,'Setup & Auto Mode':setup_auto_mode,'Satellite Detail':satellite,
      'Processing Lab':processing_lab,'Advanced Analysis':advanced_analysis,'System Health':roadmap}[page]()
 except (ValueError,KeyError,OSError,RuntimeError) as exc:
     st.error(str(exc))

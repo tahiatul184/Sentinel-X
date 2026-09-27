@@ -11,7 +11,7 @@ import collection_store
 class DashboardTests(unittest.TestCase):
     def test_current_pages_render(self):
         logging.disable(logging.CRITICAL)
-        pages=['Operations Center','Sentinal X Intelligence','Aircraft Awareness','Research & Validation','Setup & Auto Mode',
+        pages=['Aircraft Map','Operations Center','Sentinal X Intelligence','Aircraft Awareness','Research & Validation','Setup & Auto Mode',
                'Satellite Detail','Processing Lab','Advanced Analysis','System Health']
         try:
             with tempfile.TemporaryDirectory() as d:
@@ -23,6 +23,7 @@ class DashboardTests(unittest.TestCase):
                     for page in pages:
                         at.sidebar.radio[0].set_value(page).run()
                         self.assertFalse(at.exception,msg=page)
+                        self.assertFalse(at.error,msg=page)
         finally:
             logging.disable(logging.NOTSET)
 
