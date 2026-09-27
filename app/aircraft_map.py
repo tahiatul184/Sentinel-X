@@ -74,7 +74,7 @@ def render(store):
 
     st.header('Aircraft Map')
     st.caption('Satellite observation locations · Select an aircraft marker to inspect the evidence.')
-    st.info('Positions belong to the image capture time. Identity, altitude, speed, heading and transponder status are not determined by this app.')
+    st.info('Positions belong to the image capture time. Satellite imagery alone does not establish identity or transponder status. Use Flight comparison to inspect time-matched flight records.')
     demo = st.toggle('Preview synthetic example', key='aircraft_map_demo', value=False)
     if demo:
         st.warning('SYNTHETIC PREVIEW — these invented points near 0°, 0° are not real aircraft detections. Nothing is saved to your evidence.')
@@ -145,7 +145,7 @@ def _map_and_details(rows, demo):
         selected = st.selectbox('Selected observation', list(identifiers), key=selected_key)
         row = identifiers[selected]
         st.subheader('Aircraft candidate')
-        overview, evidence = st.tabs(['Detection', 'Evidence'])
+        overview, evidence, flight_data = st.tabs(['Detection', 'Evidence', 'Flight comparison'])
         with overview:
             st.code(selected, language=None)
             st.write('**Image capture (UTC):**', row['acquired_at'])
@@ -153,7 +153,7 @@ def _map_and_details(rows, demo):
             st.write('**Site:**', row['site_id'])
             st.write('**Scene:**', row['scene_id'])
             st.metric('Screening score', f"{row['screening_score']:.2f}")
-            st.caption('Flight / registration: Unknown · Altitude / speed / heading: Unknown · Transponder status: Unknown')
+            st.caption('Imagery-only identity / speed / altitude / transponder status: Unknown. See Flight comparison for possible reported flight associations.')
         with evidence:
             confidence = row.get('model_confidence')
             st.write('**Model confidence:**', f'{confidence:.2f} (uncalibrated)' if isinstance(confidence, (int, float)) else 'Not recorded in this assessment')
@@ -165,6 +165,9 @@ def _map_and_details(rows, demo):
             st.write('**Local validation:**', row.get('validation_status', 'Unknown'))
             st.write('**Registration error:**', str(row.get('registration_error_m')) + ' m' if row.get('registration_error_m') is not None else 'Unknown')
             st.caption('Coordinates are imagery-derived estimates; resolution and registration limit their accuracy.')
+        with flight_data:
+            from flight_comparison_ui import render as render_flight_comparison
+            render_flight_comparison(row, demo)
         st.download_button('Download selected observation', json.dumps(row, indent=2),
                            file_name=('synthetic_' if demo else '') + selected + '.json', mime='application/json')
     with st.expander('Observation table and export', expanded=True):

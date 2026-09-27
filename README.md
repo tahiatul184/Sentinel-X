@@ -57,6 +57,12 @@ This is a map of satellite observations, not a live flight feed. A marker is an 
 
 Map tiles need internet access. The table and exports remain available if the basemap is unavailable. No tracking-service API key is required.
 
+## FlightRadar24 comparison
+
+On **Aircraft Map**, select a marker and open **Flight comparison**. Compare with the official historical API (set `FR24_API_TOKEN`) or upload a time-stamped flight-position JSON/CSV snapshot. The panel shows possible callsign/registration matches, squawk, source, altitude, speed, and timing/location differences. It distinguishes ambiguous, estimated, unmatched, and time-mismatched results. **An unmatched detection is not proof of a switched-off transponder.**
+
+Try **Preview synthetic example → Flight comparison → Compare synthetic flight record** without a token. See [FLIGHT_COMPARISON.md](FLIGHT_COMPARISON.md) for setup, data formats, interpretation, API credit use, and test limitations.
+
 ## What changed
 
 - Sentinal X dashboard branding and **Research & Validation** page.
@@ -85,4 +91,4 @@ python -m unittest test_sentinal_x test_highres_collection test_aircraft_detecto
 
 Research ideas are selectively applied; the limitations of all cited papers are not solved. Existing foundation runners remain optional. SatMAE/CROMA/STANet/DSen2 model implementations are not added by this release. Legacy module/file names remain for compatibility.
 
-Aircraft Map update (2026-09-27): 144 offline tests passed, including candidate filtering, coordinate/time validation, map data, synthetic-preview isolation, saved-result refresh, and all ten dashboard pages. Python compilation passed. Real provider/model accuracy remains unverified.
+Aircraft Map and FlightRadar24 update (2026-09-27): 155 offline tests passed, including map interactions, snapshot parsing, time/location matching, ambiguous and estimated matches, API error handling, explicit-click-only queries, synthetic/session isolation, and all ten dashboard pages. Python compilation passed. Real authenticated FR24 queries and real detector accuracy remain unverified.
